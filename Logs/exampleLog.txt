@@ -1,0 +1,4 @@
+my username
+[TAB]
+my password
+[ENTER]
