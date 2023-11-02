@@ -9,7 +9,7 @@ from email import encoders
 import zipfile
 import os
 
-log = open("..\\..\\..\\Logs\\log.txt", "w")
+log = open("Logs\\log.txt", "w")
 
 image_counter = 1
 zip_counter = 1
@@ -62,7 +62,7 @@ def send_email(message):
 
     receiver_email = "yourmail@example.com"
 
-    subject = "..\\..\\..\\Rar Dosyası"
+    subject = "Rar Dosyası"
 
     rar_file = message
 
@@ -96,7 +96,7 @@ def thread_function():
     zip_name=f"..\\..\\..\\Rar Files\\Log{zip_counter}.zip"
     zip_counter +=1
     convert_zip(folders,zip_name)
-    send_email(zip_name)
+    # send_email(zip_name)
     timer_object = threading.Timer(600,thread_function)
     timer_object.start()
 
