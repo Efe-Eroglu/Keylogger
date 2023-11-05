@@ -43,13 +43,12 @@ zip_name=f"..\\..\\Rar Files\\Log{zip_counter}.zip" => zip_name=f"Rar Files\\Log
 * **Every 20 seconds while the application is running, it takes an image of the screen and stores it under the Images folder.**
 * **Every key pressed by the user is instantly recorded in a text file under Logs.**
   
-  <img src="https://github.com/Efe-Eroglu/Keylogger/assets/95614657/973005c7-c550-4733-ac0b-5d0721b6643e" width="200" height="250" alt="dosya_yapisi" align="center">
+  <img src="https://github.com/Efe-Eroglu/Keylogger/assets/95614657/c61365ad-65f0-4a29-9c7c-ed5c91514654" width="200" height="250" alt="dosya_yapisi" align="center">
 
 
 * **Every 10 minutes these recordings are zip-ed and sent to your e-mail address.**
 
-
-     <img src="https://github.com/Efe-Eroglu/Keylogger/assets/95614657/99a18117-696c-4e1d-8480-8d977bee314e" alt="mail_log">
+     <img src="https://github.com/Efe-Eroglu/Keylogger/assets/95614657/209be968-9e21-4a49-9222-ed4b0c091ffa" alt="mail_log">
 
 ## Note
 * **This application has been prepared within the scope of information system security course. It is not suitable for malicious use and its use for such purposes is strictly prohibited and not recommended.**
