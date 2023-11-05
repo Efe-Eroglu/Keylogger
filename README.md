@@ -1,5 +1,5 @@
 # Keylogger
-**Keyboard gestures, Send screenshots to your mail. The aim of the project is to test the security of information systems**
+**Send keyboard movements, sounds, screenshots to your e-mail. The aim of the project is to test the security of information systems**
 
 
 ## Requirements
@@ -42,6 +42,7 @@ zip_name=f"..\\..\\Rar Files\\Log{zip_counter}.zip" => zip_name=f"Rar Files\\Log
 ## System's Logic
 * **Every 20 seconds while the application is running, it takes an image of the screen and stores it under the Images folder.**
 * **Every key pressed by the user is instantly recorded in a text file under Logs.**
+* **Records the user's voice and stores it in a folder named Audio**
   
   <img src="https://github.com/Efe-Eroglu/Keylogger/assets/95614657/c61365ad-65f0-4a29-9c7c-ed5c91514654" width="200" height="250" alt="dosya_yapisi" align="center">
 
